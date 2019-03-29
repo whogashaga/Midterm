@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -11,14 +12,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
-import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.FrameLayout;
 
 import com.kerry.asmidterm.controller.VideoControllerView;
@@ -27,7 +25,7 @@ import java.io.IOException;
 
 public class DancePlayerActivity extends Activity implements SurfaceHolder.Callback, MediaPlayer.OnPreparedListener, VideoControllerView.MediaPlayerControl {
 
-    SurfaceView videoSurface;
+    SurfaceView mSurfaceView;
     MediaPlayer mPlayer;
     VideoControllerView controller;
     private static final String VIDEO_PATH = "https://s3-ap-northeast-1.amazonaws.com/mid-exam/Video/protraitVideo.mp4";
@@ -43,6 +41,8 @@ public class DancePlayerActivity extends Activity implements SurfaceHolder.Callb
     public static final float SHOW_SCALE = 16 * 1.0f / 9;
     private DisplayMetrics mDisplayMetrics;
     private FrameLayout mSurfaceLayout;
+    float mVideoWidth;
+    float mVideoHeight;
 
 
     /* ------------------------------------------------------------------------------------------ */
@@ -60,8 +60,8 @@ public class DancePlayerActivity extends Activity implements SurfaceHolder.Callb
 
         setStatusBar();
 
-        videoSurface = (SurfaceView) findViewById(R.id.videoSurface);
-        mVideoHolder = videoSurface.getHolder();
+        mSurfaceView = (SurfaceView) findViewById(R.id.videoSurface);
+        mVideoHolder = mSurfaceView.getHolder();
         mVideoHolder.addCallback(this);
 
         mPlayer = new MediaPlayer();
@@ -95,8 +95,8 @@ public class DancePlayerActivity extends Activity implements SurfaceHolder.Callb
         lp.height = (int) (mScreenWidth * SHOW_SCALE);
         mSurfaceLayout.setLayoutParams(lp);
 
-        videoSurface = (SurfaceView) findViewById(R.id.videoSurface);
-        mVideoHolder = videoSurface.getHolder();
+        mSurfaceView = (SurfaceView) findViewById(R.id.videoSurface);
+        mVideoHolder = mSurfaceView.getHolder();
         mVideoHolder.addCallback(this);
     }
 
@@ -133,10 +133,11 @@ public class DancePlayerActivity extends Activity implements SurfaceHolder.Callb
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-//        initView();
         mPlayer.setDisplay(holder);
         mPlayer.prepareAsync();
+
     }
+
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
@@ -277,7 +278,7 @@ public class DancePlayerActivity extends Activity implements SurfaceHolder.Callb
             getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
             int height = mDisplayMetrics.heightPixels;
             int width = mDisplayMetrics.widthPixels;
-            android.widget.FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) videoSurface.getLayoutParams();
+            android.widget.FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) mSurfaceView.getLayoutParams();
             params.width = height;
             params.height = width;
             params.setMargins(0, 0, 0, 0);
@@ -300,7 +301,7 @@ public class DancePlayerActivity extends Activity implements SurfaceHolder.Callb
 //            int height = mFrame.getHeight();//get height Frame Container video
             int height = mDisplayMetrics.heightPixels;
             int width = mDisplayMetrics.widthPixels;
-            android.widget.FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) videoSurface.getLayoutParams();
+            android.widget.FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) mSurfaceView.getLayoutParams();
             params.width = width;
             params.height = height;
             params.setMargins(0, 0, 0, 0);
