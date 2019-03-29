@@ -18,7 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DancePlayerActivity" android:launchMode="singleTask"/>
-        <activity android:name=".MvPlayerActivity" android:launchMode="singleTask"/>
+        <activity android:name=".DancePlayerActivity"
+            android:launchMode="singleTask"
+            android:configChanges="orientation"/>
+        <activity android:name=".MvPlayerActivity"
+            android:launchMode="singleTask"
+            android:configChanges="orientation"/>
     </application>
 </manifest>

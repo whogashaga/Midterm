@@ -1,10 +1,13 @@
 package com.kerry.asmidterm;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -17,7 +20,11 @@ public class MvPlayerActivity extends Activity implements SurfaceHolder.Callback
     SurfaceView videoSurface;
     MediaPlayer player;
     VideoControllerView controller;
+    private String TAG = "FullscreenVideoActivity";
+
     private static final String VIDEO_PATH = "https://s3-ap-northeast-1.amazonaws.com/mid-exam/Video/taeyeon.mp4";
+
+    private boolean mFullScreen = true;
 
     /* ------------------------------------------------------------------------------------------ */
     /* Activity */
@@ -37,7 +44,7 @@ public class MvPlayerActivity extends Activity implements SurfaceHolder.Callback
 
         try {
             player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-//            player.setDataSource(this, Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.dance));
+//            mPlayer.setDataSource(this, Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.dance));
             player.setDataSource(this, Uri.parse(VIDEO_PATH));
             player.setOnPreparedListener(this);
         } catch (IllegalArgumentException e) {
@@ -64,6 +71,7 @@ public class MvPlayerActivity extends Activity implements SurfaceHolder.Callback
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 
     }
+
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         player.setDisplay(holder);
@@ -81,7 +89,7 @@ public class MvPlayerActivity extends Activity implements SurfaceHolder.Callback
     @Override
     public void onPrepared(MediaPlayer mp) {
         controller.setMediaPlayer(this);
-        controller.setAnchorView((FrameLayout) findViewById(R.id.videoControllerContainer));
+        controller.setAnchorView(findViewById(R.id.videoControllerContainer));
         player.start();
     }
 
@@ -142,11 +150,47 @@ public class MvPlayerActivity extends Activity implements SurfaceHolder.Callback
 
     @Override
     public boolean isFullScreen() {
-        return false;
+        if (mFullScreen) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
     public void toggleFullScreen() {
+        setFullScreen(isFullScreen());
+    }
 
+    public void setFullScreen(boolean fullScreen) {
+        fullScreen = false;
+
+        if (mFullScreen) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            DisplayMetrics displaymetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+            int height = displaymetrics.heightPixels;
+            int width = displaymetrics.widthPixels;
+            android.widget.FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) videoSurface.getLayoutParams();
+            params.width = width;
+            params.height = height;
+            params.setMargins(0, 0, 0, 0);
+            //set icon is full screen
+            mFullScreen = fullScreen;
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            DisplayMetrics displaymetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+            final FrameLayout mFrame = (FrameLayout) findViewById(R.id.videoSurfaceContainer);
+            // int height = displaymetrics.heightPixels;
+            int height = mFrame.getHeight();//get height Frame Container video
+            int width = displaymetrics.widthPixels;
+            android.widget.FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) videoSurface.getLayoutParams();
+            params.width = width;
+            params.height = height;
+            params.setMargins(0, 0, 0, 0);
+            //set icon is small screen
+            mFullScreen = !fullScreen;
+        }
     }
 }

@@ -1,10 +1,12 @@
 package com.kerry.asmidterm;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -15,7 +17,7 @@ import java.io.IOException;
 public class DancePlayerActivity extends Activity implements SurfaceHolder.Callback, MediaPlayer.OnPreparedListener, VideoControllerView.MediaPlayerControl {
 
     SurfaceView videoSurface;
-    MediaPlayer player;
+    MediaPlayer mPlayer;
     VideoControllerView controller;
     private static final String VIDEO_PATH = "https://s3-ap-northeast-1.amazonaws.com/mid-exam/Video/protraitVideo.mp4";
 
@@ -32,15 +34,15 @@ public class DancePlayerActivity extends Activity implements SurfaceHolder.Callb
         SurfaceHolder videoHolder = videoSurface.getHolder();
         videoHolder.addCallback(this);
 
-        player = new MediaPlayer();
+        mPlayer = new MediaPlayer();
         controller = new VideoControllerView(this);
 
 
         try {
-            player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-//            player.setDataSource(this, Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.dance));
-            player.setDataSource(this, Uri.parse(VIDEO_PATH));
-            player.setOnPreparedListener(this);
+            mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//            mPlayer.setDataSource(this, Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.dance));
+            mPlayer.setDataSource(this, Uri.parse(VIDEO_PATH));
+            mPlayer.setOnPreparedListener(this);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         } catch (SecurityException e) {
@@ -65,10 +67,11 @@ public class DancePlayerActivity extends Activity implements SurfaceHolder.Callb
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 
     }
+
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        player.setDisplay(holder);
-        player.prepareAsync();
+        mPlayer.setDisplay(holder);
+        mPlayer.prepareAsync();
     }
 
     @Override
@@ -83,7 +86,7 @@ public class DancePlayerActivity extends Activity implements SurfaceHolder.Callb
     public void onPrepared(MediaPlayer mp) {
         controller.setMediaPlayer(this);
         controller.setAnchorView((FrameLayout) findViewById(R.id.videoControllerContainer));
-        player.start();
+        mPlayer.start();
     }
 
     /* ------------------------------------------------------------------------------------------ */
@@ -92,12 +95,12 @@ public class DancePlayerActivity extends Activity implements SurfaceHolder.Callb
 
     @Override
     public void start() {
-        player.start();
+        mPlayer.start();
     }
 
     @Override
     public boolean isPlaying() {
-        return player.isPlaying();
+        return mPlayer.isPlaying();
     }
 
     @Override
@@ -107,7 +110,7 @@ public class DancePlayerActivity extends Activity implements SurfaceHolder.Callb
 
     @Override
     public void pause() {
-        player.pause();
+        mPlayer.pause();
     }
 
     @Override
@@ -122,12 +125,12 @@ public class DancePlayerActivity extends Activity implements SurfaceHolder.Callb
 
     @Override
     public int getCurrentPosition() {
-        return player.getCurrentPosition();
+        return mPlayer.getCurrentPosition();
     }
 
     @Override
     public int getDuration() {
-        return player.getDuration();
+        return mPlayer.getDuration();
     }
 
     @Override
@@ -137,17 +140,25 @@ public class DancePlayerActivity extends Activity implements SurfaceHolder.Callb
 
     @Override
     public void seekTo(int pos) {
-        player.seekTo(pos);
+        mPlayer.seekTo(pos);
     }
 
 
     @Override
     public boolean isFullScreen() {
-        return false;
+        boolean isFullScreen = (getResources().getConfiguration().orientation == 2);
+        Log.d("Kerry", "isFullScreen: " + isFullScreen);
+        return isFullScreen;
     }
 
     @Override
     public void toggleFullScreen() {
-
+        Log.d("Kerry", "toggleFullScreen");
+        mPlayer.pause();
+        if (getResources().getConfiguration().orientation == 1) {
+            this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else {
+            this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
     }
 }
