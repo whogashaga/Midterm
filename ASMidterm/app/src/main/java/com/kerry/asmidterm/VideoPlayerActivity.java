@@ -18,6 +18,9 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
     MediaPlayer player;
     VideoControllerView controller;
 
+    /* ------------------------------------------------------------------------------------------ */
+    /* Activity */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +54,26 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
         return false;
     }
 
+    /* ------------------------------------------------------------------------------------------ */
+    /* SurfaceHolder.Callback */
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
+    }
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        player.setDisplay(holder);
+        player.prepareAsync();
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+
+    }
+
+    /* ------------------------------------------------------------------------------------------ */
+    /* MediaPlayer.OnPreparedListener */
 
     @Override
     public void onPrepared(MediaPlayer mp) {
@@ -59,45 +82,13 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
         player.start();
     }
 
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-        player.setDisplay(holder);
-        player.prepareAsync();
-    }
+    /* ------------------------------------------------------------------------------------------ */
 
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-    }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-
-    }
+    /* VideoControllerView.MediaPlayerControl */
 
     @Override
     public void start() {
         player.start();
-    }
-
-    @Override
-    public void pause() {
-        player.pause();
-    }
-
-    @Override
-    public int getDuration() {
-        return player.getDuration();
-    }
-
-    @Override
-    public int getCurrentPosition() {
-        return player.getCurrentPosition();
-    }
-
-    @Override
-    public void seekTo(int pos) {
-        player.seekTo(pos);
     }
 
     @Override
@@ -106,13 +97,13 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
     }
 
     @Override
-    public int getBufferPercentage() {
-        return 0;
+    public boolean canPause() {
+        return true;
     }
 
     @Override
-    public boolean canPause() {
-        return true;
+    public void pause() {
+        player.pause();
     }
 
     @Override
@@ -124,6 +115,27 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
     public boolean canSeekForward() {
         return true;
     }
+
+    @Override
+    public int getCurrentPosition() {
+        return player.getCurrentPosition();
+    }
+
+    @Override
+    public int getDuration() {
+        return player.getDuration();
+    }
+
+    @Override
+    public int getBufferPercentage() {
+        return 0;
+    }
+
+    @Override
+    public void seekTo(int pos) {
+        player.seekTo(pos);
+    }
+
 
     @Override
     public boolean isFullScreen() {
