@@ -8,4 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MySeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressBackgroundTint">#FA9C85</item>
+        <item name="android:progressTint">#9BFF9D</item>
+        <item name="android:colorControlActivated">#FFB3D4</item>
+    </style>
+
+
+
 </resources>
