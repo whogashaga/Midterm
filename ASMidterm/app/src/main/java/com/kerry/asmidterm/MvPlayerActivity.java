@@ -2,6 +2,7 @@ package com.kerry.asmidterm;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -40,7 +41,14 @@ public class MvPlayerActivity extends Activity implements SurfaceHolder.Callback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_video_player);
+
+        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            setContentView(R.layout.activity_video_player_landscape);
+        }
+        else if (this.getResources().getConfiguration().orientation ==Configuration.ORIENTATION_PORTRAIT) {
+            setContentView(R.layout.activity_video_player);
+        }
+
         setStatusBar();
 
         mControllerFrameLayout = findViewById(R.id.videoControllerContainer);
@@ -252,8 +260,8 @@ public class MvPlayerActivity extends Activity implements SurfaceHolder.Callback
             DisplayMetrics displaymetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
             final FrameLayout mFrame = (FrameLayout) findViewById(R.id.videoSurfaceContainer);
-            // int height = displaymetrics.heightPixels;
-            int height = mFrame.getHeight();//get height Frame Container video
+//            int height = mFrame.getHeight();//get height Frame Container video
+            int height = displaymetrics.heightPixels;
             int width = displaymetrics.widthPixels;
             android.widget.FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) videoSurface.getLayoutParams();
             params.width = width;
