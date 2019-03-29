@@ -1,118 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".MainActivity">
 
-
-    <ImageButton
-        android:id="@+id/btn_volume"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/ic_volume_on_24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_rewind"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageButton
-        android:id="@+id/btn_rewind"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/ic_fast_rewind_24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_volume"
-        app:layout_constraintEnd_toStartOf="@+id/btn_play"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_volume"
-        app:layout_constraintTop_toTopOf="@+id/btn_volume" />
-
-    <ImageButton
-        android:id="@+id/btn_play"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/ic_play_24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_volume"
-        app:layout_constraintEnd_toStartOf="@+id/btn_forward"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_rewind"
-        app:layout_constraintTop_toTopOf="@+id/btn_volume" />
-
-    <ImageButton
-        android:id="@+id/btn_forward"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/ic_fast_forward_24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_volume"
-        app:layout_constraintEnd_toStartOf="@+id/btn_full_screen"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_play"
-        app:layout_constraintTop_toTopOf="@+id/btn_volume" />
-
-    <ImageButton
-        android:id="@+id/btn_full_screen"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/ic_fullscreen_24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_volume"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_forward"
-        app:layout_constraintTop_toTopOf="@+id/btn_volume" />
-
-    <VideoView
-        android:id="@+id/videoView"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="228dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/text_current_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="40dp"
-        android:text="00:00"
-        android:textColor="@android:color/black"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/text_total_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:text="00:00"
-        android:textColor="@android:color/black"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="@+id/text_current_time"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/text_current_time" />
-
-    <View
-        android:id="@+id/view_progress_total"
-        android:layout_width="0dp"
-        android:layout_height="3dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@color/colorAccent"
-        app:layout_constraintBottom_toBottomOf="@+id/text_current_time"
-        app:layout_constraintEnd_toStartOf="@+id/text_total_time"
-        app:layout_constraintStart_toEndOf="@+id/text_current_time"
-        app:layout_constraintTop_toTopOf="@+id/text_current_time" />
+<VideoView
+    android:id="@+id/videoView"
+    android:layout_width="0dp"
+    android:layout_height="200dp"
+    android:layout_marginTop="228dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
+
