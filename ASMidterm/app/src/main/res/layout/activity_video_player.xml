@@ -12,23 +12,23 @@
         android:id="@+id/videoSurfaceContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/videoControllerContainer"
+        app:layout_constraintBottom_toBottomOf="@+id/videoControllerContainer"
         app:layout_constraintTop_toTopOf="parent">
 
         <SurfaceView
             android:id="@+id/videoSurface"
             android:layout_width="match_parent"
             android:layout_height="300dp" />
-
     </FrameLayout>
 
     <FrameLayout
         android:id="@+id/videoControllerContainer"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>
