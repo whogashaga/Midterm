@@ -25,7 +25,7 @@ import java.io.IOException;
 public class MvPlayerActivity extends Activity implements SurfaceHolder.Callback, MediaPlayer.OnPreparedListener, VideoControllerView.MediaPlayerControl {
 
     SurfaceView videoSurface;
-    MediaPlayer player;
+    MediaPlayer mPlayer;
     VideoControllerView controller;
     private String TAG = "FullscreenVideoActivity";
 
@@ -57,15 +57,15 @@ public class MvPlayerActivity extends Activity implements SurfaceHolder.Callback
         SurfaceHolder videoHolder = videoSurface.getHolder();
         videoHolder.addCallback(this);
 
-        player = new MediaPlayer();
+        mPlayer = new MediaPlayer();
         controller = new VideoControllerView(this);
 
 
         try {
-            player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 //            mPlayer.setDataSource(this, Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.dance));
-            player.setDataSource(this, Uri.parse(VIDEO_PATH));
-            player.setOnPreparedListener(this);
+            mPlayer.setDataSource(this, Uri.parse(VIDEO_PATH));
+            mPlayer.setOnPreparedListener(this);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         } catch (SecurityException e) {
@@ -115,8 +115,8 @@ public class MvPlayerActivity extends Activity implements SurfaceHolder.Callback
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        player.setDisplay(holder);
-        player.prepareAsync();
+        mPlayer.setDisplay(holder);
+        mPlayer.prepareAsync();
     }
 
     @Override
@@ -131,7 +131,7 @@ public class MvPlayerActivity extends Activity implements SurfaceHolder.Callback
     public void onPrepared(MediaPlayer mp) {
         controller.setMediaPlayer(this);
         controller.setAnchorView(findViewById(R.id.videoControllerContainer));
-        player.start();
+        mPlayer.start();
     }
 
     /* ------------------------------------------------------------------------------------------ */
@@ -140,12 +140,12 @@ public class MvPlayerActivity extends Activity implements SurfaceHolder.Callback
 
     @Override
     public void start() {
-        player.start();
+        mPlayer.start();
     }
 
     @Override
     public boolean isPlaying() {
-        return player.isPlaying();
+        return mPlayer.isPlaying();
     }
 
     @Override
@@ -155,7 +155,7 @@ public class MvPlayerActivity extends Activity implements SurfaceHolder.Callback
 
     @Override
     public void pause() {
-        player.pause();
+        mPlayer.pause();
     }
 
     @Override
@@ -170,12 +170,12 @@ public class MvPlayerActivity extends Activity implements SurfaceHolder.Callback
 
     @Override
     public int getCurrentPosition() {
-        return player.getCurrentPosition();
+        return mPlayer.getCurrentPosition();
     }
 
     @Override
     public int getDuration() {
-        return player.getDuration();
+        return mPlayer.getDuration();
     }
 
     @Override
@@ -185,7 +185,7 @@ public class MvPlayerActivity extends Activity implements SurfaceHolder.Callback
 
     @Override
     public void seekTo(int pos) {
-        player.seekTo(pos);
+        mPlayer.seekTo(pos);
     }
 
 
@@ -222,11 +222,11 @@ public class MvPlayerActivity extends Activity implements SurfaceHolder.Callback
 
         if (mIsMute) {
 
-            player.setVolume(0,0);
+            mPlayer.setVolume(0,0);
             mIsMute = mute;
 
         } else {
-            player.setVolume(1,1);
+            mPlayer.setVolume(1,1);
             mIsMute = !mute;
         }
     }
