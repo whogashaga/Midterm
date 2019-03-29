@@ -24,17 +24,17 @@
         android:layout_marginStart="8dp"
         android:background="@drawable/ic_fast_rewind_24dp"
         app:layout_constraintBottom_toBottomOf="@+id/btn_volume"
-        app:layout_constraintEnd_toStartOf="@+id/btn_play"
+        app:layout_constraintEnd_toStartOf="@+id/btn_pause"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btn_volume"
         app:layout_constraintTop_toTopOf="@+id/btn_volume" />
 
     <ImageButton
-        android:id="@+id/btn_play"
+        android:id="@+id/btn_pause"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginStart="8dp"
-        android:background="@drawable/ic_play_24dp"
+        android:background="@drawable/ic_pause_24dp"
         app:layout_constraintBottom_toBottomOf="@+id/btn_volume"
         app:layout_constraintEnd_toStartOf="@+id/btn_forward"
         app:layout_constraintHorizontal_bias="0.5"
@@ -50,7 +50,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/btn_volume"
         app:layout_constraintEnd_toStartOf="@+id/btn_full_screen"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_play"
+        app:layout_constraintStart_toEndOf="@+id/btn_pause"
         app:layout_constraintTop_toTopOf="@+id/btn_volume" />
 
     <ImageButton

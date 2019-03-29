@@ -122,7 +122,7 @@ public class VideoControllerView extends FrameLayout {
     }
 
     private void initControllerView(View v) {
-        mPauseButton = (ImageButton) v.findViewById(R.id.btn_play);
+        mPauseButton = (ImageButton) v.findViewById(R.id.btn_pause);
         if (mPauseButton != null) {
             mPauseButton.requestFocus();
             mPauseButton.setOnClickListener(mPauseListener);
@@ -136,7 +136,7 @@ public class VideoControllerView extends FrameLayout {
 
         mFfwdButton = (ImageButton) v.findViewById(R.id.btn_forward);
         if (mFfwdButton != null) {
-            mFfwdButton.setOnClickListener(mFfwdListener);
+            mFfwdButton.setOnClickListener(mForwardListener);
             if (!mFromXml) {
                 mFfwdButton.setVisibility(mUseFastForward ? View.VISIBLE : View.GONE);
             }
@@ -144,7 +144,7 @@ public class VideoControllerView extends FrameLayout {
 
         mRewButton = (ImageButton) v.findViewById(R.id.btn_rewind);
         if (mRewButton != null) {
-            mRewButton.setOnClickListener(mRewListener);
+            mRewButton.setOnClickListener(mRewindListener);
             if (!mFromXml) {
                 mRewButton.setVisibility(mUseFastForward ? View.VISIBLE : View.GONE);
             }
@@ -384,9 +384,9 @@ public class VideoControllerView extends FrameLayout {
         }
 
         if (mPlayer.isPlaying()) {
-            mPauseButton.setImageResource(R.drawable.ic_pause_24dp);
+            mPauseButton.setBackgroundResource(R.drawable.ic_pause_24dp);
         } else {
-            mPauseButton.setImageResource(R.drawable.ic_play_24dp);
+            mPauseButton.setBackgroundResource(R.drawable.ic_play_24dp);
         }
     }
 
@@ -396,10 +396,10 @@ public class VideoControllerView extends FrameLayout {
         }
 
         if (mPlayer.isFullScreen()) {
-            mFullscreenButton.setImageResource(R.drawable.ic_fullscreen_exit_black_24dp);
+            mFullscreenButton.setBackgroundResource(R.drawable.ic_fullscreen_exit_black_24dp);
         }
         else {
-            mFullscreenButton.setImageResource(R.drawable.ic_fullscreen_24dp);
+            mFullscreenButton.setBackgroundResource(R.drawable.ic_fullscreen_24dp);
         }
     }
 
@@ -407,7 +407,6 @@ public class VideoControllerView extends FrameLayout {
         if (mPlayer == null) {
             return;
         }
-
         if (mPlayer.isPlaying()) {
             mPlayer.pause();
         } else {
@@ -516,14 +515,14 @@ public class VideoControllerView extends FrameLayout {
         info.setClassName(VideoControllerView.class.getName());
     }
 
-    private View.OnClickListener mRewListener = new View.OnClickListener() {
+    private View.OnClickListener mRewindListener = new View.OnClickListener() {
         public void onClick(View v) {
             if (mPlayer == null) {
                 return;
             }
 
             int pos = mPlayer.getCurrentPosition();
-            pos -= 5000; // milliseconds
+            pos -= 15000; // milliseconds
             mPlayer.seekTo(pos);
             setProgress();
 
@@ -531,7 +530,7 @@ public class VideoControllerView extends FrameLayout {
         }
     };
 
-    private View.OnClickListener mFfwdListener = new View.OnClickListener() {
+    private View.OnClickListener mForwardListener = new View.OnClickListener() {
         public void onClick(View v) {
             if (mPlayer == null) {
                 return;

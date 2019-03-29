@@ -12,11 +12,13 @@ import android.widget.FrameLayout;
 
 import java.io.IOException;
 
-public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callback, MediaPlayer.OnPreparedListener, VideoControllerView.MediaPlayerControl {
+public class DancePlayerActivity extends Activity implements SurfaceHolder.Callback, MediaPlayer.OnPreparedListener, VideoControllerView.MediaPlayerControl {
 
     SurfaceView videoSurface;
     MediaPlayer player;
     VideoControllerView controller;
+    private static final String VIDEO_PATH = "https://s3-ap-northeast-1.amazonaws.com/mid-exam/Video/protraitVideo.mp4";
+
 
     /* ------------------------------------------------------------------------------------------ */
     /* Activity */
@@ -33,9 +35,11 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
         player = new MediaPlayer();
         controller = new VideoControllerView(this);
 
+
         try {
             player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            player.setDataSource(this, Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.dance));
+//            player.setDataSource(this, Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.dance));
+            player.setDataSource(this, Uri.parse(VIDEO_PATH));
             player.setOnPreparedListener(this);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -78,7 +82,7 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
     @Override
     public void onPrepared(MediaPlayer mp) {
         controller.setMediaPlayer(this);
-        controller.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
+        controller.setAnchorView((FrameLayout) findViewById(R.id.videoControllerContainer));
         player.start();
     }
 
