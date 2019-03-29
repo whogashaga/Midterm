@@ -16,6 +16,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import com.kerry.asmidterm.controller.VideoControllerView;
+
 import java.io.IOException;
 
 public class DancePlayerActivity extends Activity implements SurfaceHolder.Callback, MediaPlayer.OnPreparedListener, VideoControllerView.MediaPlayerControl {
@@ -177,5 +179,15 @@ public class DancePlayerActivity extends Activity implements SurfaceHolder.Callb
         } else {
             this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+    }
+
+    @Override
+    public boolean isMute() {
+        return false;
+    }
+
+    @Override
+    public void mute() {
+
     }
 }

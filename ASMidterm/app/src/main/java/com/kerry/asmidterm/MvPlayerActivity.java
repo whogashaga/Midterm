@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -17,6 +16,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+
+import com.kerry.asmidterm.controller.VideoControllerView;
 
 import java.io.IOException;
 
@@ -29,7 +30,8 @@ public class MvPlayerActivity extends Activity implements SurfaceHolder.Callback
 
     private static final String VIDEO_PATH = "https://s3-ap-northeast-1.amazonaws.com/mid-exam/Video/taeyeon.mp4";
 
-    private boolean mFullScreen = true;
+    private boolean mIsFullScreen = true;
+    private boolean mIsMute = true;
     private FrameLayout mControllerFrameLayout;
 
     /* ------------------------------------------------------------------------------------------ */
@@ -181,7 +183,7 @@ public class MvPlayerActivity extends Activity implements SurfaceHolder.Callback
 
     @Override
     public boolean isFullScreen() {
-        if (mFullScreen) {
+        if (mIsFullScreen) {
             return false;
         } else {
             return true;
@@ -193,10 +195,38 @@ public class MvPlayerActivity extends Activity implements SurfaceHolder.Callback
         setFullScreen(isFullScreen());
     }
 
+    @Override
+    public boolean isMute() {
+        if (mIsMute) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public void mute() {
+        setVolume(isMute());
+    }
+
+    public void setVolume(boolean mute) {
+        mute = false;
+
+        if (mIsMute) {
+
+            player.setVolume(0,0);
+            mIsMute = mute;
+
+        } else {
+            player.setVolume(1,1);
+            mIsMute = !mute;
+        }
+    }
+
     public void setFullScreen(boolean fullScreen) {
         fullScreen = false;
 
-        if (mFullScreen) {
+        if (mIsFullScreen) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             DisplayMetrics displaymetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -207,7 +237,7 @@ public class MvPlayerActivity extends Activity implements SurfaceHolder.Callback
             params.height = width;
             params.setMargins(0, 0, 0, 0);
             //set icon is full screen
-            mFullScreen = fullScreen;
+            mIsFullScreen = fullScreen;
 
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -230,7 +260,7 @@ public class MvPlayerActivity extends Activity implements SurfaceHolder.Callback
             params.height = height;
             params.setMargins(0, 0, 0, 0);
             //set icon is small screen
-            mFullScreen = !fullScreen;
+            mIsFullScreen = !fullScreen;
         }
     }
 }

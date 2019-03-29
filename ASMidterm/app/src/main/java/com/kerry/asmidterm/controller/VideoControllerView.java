@@ -1,4 +1,4 @@
-package com.kerry.asmidterm;
+package com.kerry.asmidterm.controller;
 
 import android.content.Context;
 import android.os.Handler;
@@ -18,6 +18,8 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.kerry.asmidterm.R;
 
 import java.lang.ref.WeakReference;
 import java.util.Formatter;
@@ -91,6 +93,7 @@ public class VideoControllerView extends FrameLayout {
         mPlayer = player;
         updatePausePlay();
         updateFullScreen();
+        updateVolumeStatus();
     }
 
     /**
@@ -139,6 +142,12 @@ public class VideoControllerView extends FrameLayout {
         if (mFullscreenButton != null) {
             mFullscreenButton.requestFocus();
             mFullscreenButton.setOnClickListener(mFullscreenListener);
+        }
+
+        mMuteButton = (ImageButton) v.findViewById(R.id.btn_volume);
+        if (mMuteButton != null) {
+            mMuteButton.requestFocus();
+            mMuteButton.setOnClickListener(mMuteListener);
         }
 
         mFfwdButton = (ImageButton) v.findViewById(R.id.btn_forward);
@@ -208,6 +217,7 @@ public class VideoControllerView extends FrameLayout {
         }
         updatePausePlay();
         updateFullScreen();
+        updateVolumeStatus();
 
         // cause the progress bar to be updated even if mShowing
         // was already true.  This happens, for example, if we're
@@ -361,6 +371,7 @@ public class VideoControllerView extends FrameLayout {
                 || keyCode == KeyEvent.KEYCODE_VOLUME_UP
                 || keyCode == KeyEvent.KEYCODE_VOLUME_MUTE) {
             // don't show the controls for volume adjustment
+
             return super.dispatchKeyEvent(event);
         } else if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_MENU) {
             if (uniqueDown) {
@@ -383,6 +394,13 @@ public class VideoControllerView extends FrameLayout {
     private View.OnClickListener mFullscreenListener = new View.OnClickListener() {
         public void onClick(View v) {
             doToggleFullscreen();
+            show(sDefaultTimeout);
+        }
+    };
+
+    private View.OnClickListener mMuteListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            doVolumeMute();
             show(sDefaultTimeout);
         }
     };
@@ -411,6 +429,18 @@ public class VideoControllerView extends FrameLayout {
         }
     }
 
+    public void updateVolumeStatus() {
+        if (mRoot == null || mMuteButton == null || mPlayer == null) {
+            return;
+        }
+
+        if (mPlayer.isMute()) {
+            mMuteButton.setBackgroundResource(R.drawable.ic_volume_off_24dp);
+        } else {
+            mMuteButton.setBackgroundResource(R.drawable.ic_volume_on_24dp);
+        }
+    }
+
     private void doPauseResume() {
         if (mPlayer == null) {
             return;
@@ -428,6 +458,13 @@ public class VideoControllerView extends FrameLayout {
             return;
         }
         mPlayer.toggleFullScreen();
+    }
+
+    private void doVolumeMute() {
+        if (mPlayer == null) {
+            return;
+        }
+        mPlayer.mute();
     }
 
     // There are two scenarios that can trigger the seekbar listener to trigger:
@@ -606,6 +643,10 @@ public class VideoControllerView extends FrameLayout {
         boolean isFullScreen();
 
         void toggleFullScreen();
+
+        boolean isMute();
+
+        void mute();
     }
 
     private static class MessageHandler extends Handler {
